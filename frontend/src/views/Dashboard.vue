@@ -1,19 +1,38 @@
 <template>
-    <div id="nav" class="home containerx bg-light">
+    <div id="nav" class="containerx bg-light">
         <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
             <div class="carousel-inner">
                 <div class="carousel-item active">
-                    <img src="../assets/banner-bansos.jpeg" class="d-block w-100" alt="Banner Bencana">
+                    <img src="../assets/banner-development.png" class="d-block w-100" alt="Banner Bencana">
                 </div>
             </div>
         </div>
     
         <h5 class="fw-bold mt-4">Bencana saat ini</h5>
-        
-        <ul class="list-group">
-            <router-link to="/" class="list-group-item">Home</router-link>
-            <router-link to="/about" class="list-group-item">About</router-link>
-            <router-link :to="{ name: 'Disaster' }" class="list-group-item">Kebakaran Rumah</router-link>
+        <div class="d-flex justify-content-center m-5" v-if="disaster==null">
+            <div class="spinner-border" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
+        <ul class="list-group" v-for="(data, index) in disaster" :key="index" v-else>
+            <router-link :to="{ name: 'Disaster', params: { id: data.id } }" class="list-group-item mb-2">{{ data.disaster_name }}</router-link>
         </ul>
     </div>
 </template>
+<script>
+export default {
+    name: 'Dashboard',
+    data() {
+        return {
+            disaster: null   
+        }
+    },
+    created() {
+        axios
+        .get(this.$store.state.url + 'disaster')
+        .then(response => {
+            this.disaster = response.data
+        })
+    }
+}
+</script>

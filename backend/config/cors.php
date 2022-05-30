@@ -18,6 +18,7 @@ return [
     'paths' => ['api/*'],
 
     'allowed_methods' => ['*'],
+    // 'allowed_methods' => ['localhost', 'localhost:8000/api/*', '10.10.10.9:8080'],
 
     'allowed_origins' => ['*'],
 

@@ -13,14 +13,15 @@ class CreateDisasterTable extends Migration
      */
     public function up()
     {
-        Schema::create('disaster', function (Blueprint $table) {
+        Schema::create('disasters', function (Blueprint $table) {
             $table->id();
-            $table->String('disaster_name');
+            $table->string('disaster_name');
+            $table->text('information');
             $table->date('date');
             $table->string('location');
-            $table->unsignedBigInteger('user_id')->nullable()->index();
+            $table->unsignedBigInteger('admin_id')->nullable()->index();
             $table->timestamps();
-            $table->foreign('user_id')->references('id')->on('user')->onDelete('restrict');
+            $table->foreign('admin_id')->references('id')->on('admins')->onDelete('restrict');
         });
     }
 

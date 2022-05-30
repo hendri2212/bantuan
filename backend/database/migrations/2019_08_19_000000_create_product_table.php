@@ -13,13 +13,15 @@ class CreateProductTable extends Migration
      */
     public function up()
     {
-        Schema::create('product', function (Blueprint $table) {
+        Schema::create('products', function (Blueprint $table) {
             $table->id();
-            $table->text('product');
+            $table->string('product');
             $table->integer('total');
-            $table->unsignedBigInteger('donation_id')->nullable()->index();
+            $table->unsignedBigInteger('user_id')->nullable()->index();
+            $table->unsignedBigInteger('disaster_id')->nullable()->index();
             $table->timestamps();
-            $table->foreign('donation_id')->references('id')->on('donation')->onDelete('restrict');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('restrict');
+            $table->foreign('disaster_id')->references('id')->on('disasters')->onDelete('restrict');
         });
     }
 
@@ -30,6 +32,6 @@ class CreateProductTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('failed_jobs');
+        Schema::dropIfExists('products');
     }
 }

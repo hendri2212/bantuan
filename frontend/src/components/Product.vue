@@ -4,24 +4,25 @@
             <h5 class="fw-bold">Data Barang</h5>
             <router-link to="/"><span class="badge bg-warning text-dark">Close</span></router-link>
         </div>
-        <form v-on:submit.prevent="addNewTodo">
-            <div class="mb-3">
-                <label>Product Category</label>
+        <form v-on:submit.prevent="save">
+            <div class="mb-2">
+                <label class="form-text">Product Category</label>
                 <select v-model="category" class="form-select">
-                    <option>Food</option>
-                    <option>Clothing</option>
-                    <option>Disabled select</option>
+                    <option disabled value="">Please select one</option>
+                    <option :value="data.id" v-for="(data, index) in categories" :key="index">{{ data.category }}</option>
                 </select>
             </div>
-            <div class="mb-3">
-                <label>Product Name</label>
+            <div class="mb-2">
+                <label class="form-text">Product Name</label>
                 <input type="text" class="form-control" v-model="product">
             </div>
-            <div class="mb-3">
-                <label>Total</label>
+            <div class="mb-2">
+                <label class="form-text">Total</label>
                 <input type="text" class="form-control" v-model="total">
             </div>
-            <input type="button" class="btn btn-primary" value="Add">
+            <div class="d-flex justify-content-end">
+                <input type="submit" class="btn btn-primary" value="Add">
+            </div>
         </form>
         <table class="table mt-5">
             <thead>
@@ -33,32 +34,68 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <th scope="row">1</th>
-                    <td>{{ category }}</td>
-                    <td>{{ product }}</td>
-                    <td>{{ total }}</td>
+                <tr v-for="(data, index) in products" :key="index">
+                    <th scope="row">{{ index+1 }}</th>
+                    <td>{{ data.category.category }}</td>
+                    <td>{{ data.product }}</td>
+                    <td>{{ data.total }}</td>
                 </tr>
             </tbody>
         </table>
+        
+        <div class="d-grid">
+            <a href="/" class="btn btn-outline-secondary btn-block fw-lighter">Finish</a>
+        </div>
     </div>
 </template>
 <script>
 export default {
     data() {
         return {
-            product:           '',
-                   category:   '',
-            total:      ''
+            categories  : null,
+            user        : null,
+            products    : null,
+
+            product     : '',
+            total       : '',
+            category    : ''
         }
     },
-    methods: {
-        addNewTodo() {
-        this.todos.push({
-            id: this.nextTodoId++,
-            title: this.newTodoText
+    created() {
+        axios
+        .get(this.$store.state.url + 'categories')
+        .then(response => {
+            this.categories = response.data
         })
-        this.newTodoText = ''
+        
+        axios
+        .get(this.$store.state.url + 'user/1')
+        .then(response => {
+            this.user = response.data
+        })
+        
+        axios
+        .get(this.$store.state.url + 'products/7')
+        .then(response => {
+            this.products = response.data
+        })
+    },
+    methods: {
+        save() {
+            var data = {
+                product     : this.product,
+                total       : this.total,
+                user_id     : this.user.id,
+                // disaster_id : disaster.id,
+                disaster_id : 1,
+                category_id : this.category
+            }
+            axios
+            .post(this.$store.state.url + 'product', data)
+            .then(
+                this.$router.push({ name: 'Product' }),
+                this.$router.go(this.$router.currentRoute)
+            )
         }
     }
 }
