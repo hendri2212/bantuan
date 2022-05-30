@@ -17,6 +17,7 @@
         <ul class="list-group" v-for="(data, index) in disaster" :key="index" v-else>
             <router-link :to="{ name: 'Disaster', params: { id: data.id } }" class="list-group-item mb-2">{{ data.disaster_name }}</router-link>
         </ul>
+        {{$store.state.token}}
     </div>
 </template>
 <script>

@@ -54,8 +54,12 @@ export default {
             }
             axios
             .post(this.$store.state.url + 'user', data)
-            .then(this.$router.push({ name: 'Dashboard' }))
-            localStorage.setItem("telephone", this.telephone)
+            .then(() => {
+                localStorage.setItem("telephone", this.telephone)
+                this.$store.dispatch('login')
+                this.$router.push({ name: 'Dashboard' })
+            })
+
         }
     }
 }

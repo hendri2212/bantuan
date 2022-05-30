@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Dashboard from '../views/Dashboard'
 import Disaster from '../components/Disaster'
+import AdminDashboard from '../components/Admin/Dashboard'
 
 const routes = [
     {
@@ -47,13 +48,21 @@ const routes = [
     component: function () {
       return import('../views/Admin')
     },
-    meta: {
-      requiresAuth: true,
-      roles: ['admin'],
-      title: 'Dashboard Page',
-      icon: 'mdi-view-dashboard',
-      breadcrumb: [{ title: 'Dashboard', icon: 'mdi-view-dashboard' }]
-    }
+    children:[
+      {
+        name:'AdminDashboard',
+        path: '',
+        component:AdminDashboard,
+        meta: {
+          requiresAuth: true,
+        },
+      },
+      {
+        name:'LoginDashboard',
+        path: '/login',
+        component:AdminDashboard
+      },
+    ]
   }
 ]
 
