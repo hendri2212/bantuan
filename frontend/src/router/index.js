@@ -1,23 +1,33 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Dashboard from '../views/Dashboard'
 import Disaster from '../components/Disaster'
-import AdminDashboard from '../components/Admin/Dashboard'
+import AdminDashboard from '../views/Admin/Dashboard'
+import AdminDisaster from '../views/Admin/Disaster'
 
 const routes = [
     {
         path: '/register',
         name: 'Register',
-        component: () => import('../components/Register.vue')
+        component: () => import('../components/Register.vue'),
+        meta: {
+          isAdminPage: false,
+        },
     },
     {
         path: '/login',
         name: 'Login',
-        component: () => import('../components/Login.vue')
+        component: () => import('../components/Login.vue'),
+        meta: {
+          isAdminPage: false,
+        },
     },
     {
         path        : '/',
         name        : 'Dashboard',
         component   : Dashboard,
+        meta: {
+          isAdminPage: false,
+        },
         // children    : [{
         //     path        : 'disaster/:id',
         //     name        : 'Disaster',
@@ -32,12 +42,16 @@ const routes = [
         name        : 'Disaster',
         component   : Disaster,
         meta        : {
-            name    : 'Disaster'
+            name    : 'Disaster',
+            isAdminPage: false,
         }
     },
     {
         path        : '/product',
         name        : 'Product',
+        meta:{
+          isAdminPage: false,
+        },
         component   : function () {
             return import('../components/Product')
         }
@@ -45,22 +59,62 @@ const routes = [
   {
     path: '/admin',
     name: 'Admin',
+    meta:{
+      isAdminPage: true
+    },
     component: function () {
       return import('../views/Admin')
     },
     children:[
+      {
+        name:'LoginDashboard',
+        path: 'login',
+        component:AdminDashboard
+      },
       {
         name:'AdminDashboard',
         path: '',
         component:AdminDashboard,
         meta: {
           requiresAuth: true,
+          title: 'Dashboard'
         },
       },
       {
-        name:'LoginDashboard',
-        path: '/login',
-        component:AdminDashboard
+        name:'AdminDisaster',
+        path: 'disaster',
+        component:AdminDisaster,
+        meta: {
+          requiresAuth: true,
+          title: 'Disaster'
+        },
+      },
+      {
+        name:'AdminUser',
+        path: 'user',
+        component:AdminDashboard,
+        meta: {
+          requiresAuth: true,
+          title: 'User'
+        },
+      },
+      {
+        name:'AdminProducts',
+        path: 'products',
+        component:AdminDashboard,
+        meta: {
+          requiresAuth: true,
+          title: 'Products'
+        },
+      },
+      {
+        name:'AdminCategory',
+        path: 'category',
+        component:AdminDashboard,
+        meta: {
+          requiresAuth: true,
+          title: 'Category'
+        },
       },
     ]
   }

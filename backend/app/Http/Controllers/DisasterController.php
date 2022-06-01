@@ -17,6 +17,11 @@ class DisasterController extends Controller
         return Disaster::all();
     }
 
+    public function getForAdmin(Request $request){
+        $disaster = Disaster::paginate(10);
+        return response()->json($disaster, 200);
+    }
+
     /**
      * Store a newly created resource in storage.
      *
