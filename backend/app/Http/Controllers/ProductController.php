@@ -49,9 +49,14 @@ class ProductController extends Controller
         // return Product::find($product->user_id);
     }
 
-    public function products($id)
+    public function products(Request $request)
     {
-        return Product::with('category')->where('user_id', $id)->get();
+        // return Product::with('category')->where('user_id', $id)->get();
+        
+        return Product::with('category')
+        ->where('user_id', $request->user_id)
+        ->where('disaster_id', $request->disaster_id)
+        ->get();
     }
 
     /**

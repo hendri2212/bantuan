@@ -23,7 +23,7 @@ Route::resource('user', 'UserController');
 Route::resource('categories', 'CategoryController');
 Route::resource('product', 'ProductController');
 Route::get('profile/{id}', 'UserController@profile');
-Route::get('products/{id}', 'ProductController@products');
+Route::get('products', 'ProductController@products');
 Route::prefix('admin')->group(function($route){
     $route->get('disaster', 'DisasterController@getForAdmin');
 });

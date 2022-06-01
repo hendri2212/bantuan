@@ -1,20 +1,21 @@
 <template>
     <div id="nav" class="containerx bg-light">
         <h5 class="text-center fw-bold">Login ke Aplikasi</h5>
-        <form @submit.prevent="save">
+        <form @submit.prevent="login">
             <div class="mb-2">
                 <label class="form-text">Telephone</label>
-                <input type="tel" class="form-control" placeholder="Type your phone number">
+                <input type="tel" class="form-control form-control-lg" v-model="telephone" placeholder="Type your phone number">
+                <label class="small fst-italic text-muted">* Kode OTP akan dikirim ke nomor handphone</label>
             </div>
-            <div class="mb-2">
+
+            <!-- <div class="mb-2">
                 <label class="form-text">Password</label>
                 <input type="password" class="form-control" placeholder="Type your password">
-            </div>
+            </div> -->
             <div class="d-flex justify-content-end">
                 <div class="btn-group">
-                    <a href="/" class="btn btn-outline-secondary">Cancel</a>
-                    <input type="submit" value="Login" class="btn btn-primary">
-                    <!-- <router-link :to="{ name:'Product'}" class="btn btn-primary text-white fw-normal">Next</router-link> -->
+                    <a href="/" class="btn btn-outline-secondary btn-sm">Cancel</a>
+                    <input type="submit" value="Login" class="btn btn-sm btn-primary">
                 </div>
             </div>
         </form>
@@ -26,23 +27,22 @@ export default {
     data() {
         return {
             telephone   : '',
-            password    : ''
         }
     },
     methods: {
-        save() {
-            // var data = {
-            //     telephone   : this.telephone,
-            //     password    : this.password,
-            // }
-            // axios
-            // .post(this.$store.state.url + 'login', data)
-            // .then(response => {
-            //     localStorage.setItem("telephone", this.telephone)
-            //     this.$router.push({ name: 'Dashboard' })
-            // })
-            localStorage.setItem("telephone", '085746080544')
-            this.$router.push({ name: 'Dashboard' })
+        login() {
+            axios
+            .get(this.$store.state.url + 'profile/'+this.telephone)
+            .then(response => {
+                if (response.data.telephone != null) {
+                    localStorage.setItem("telephone", response.data.telephone)
+                    localStorage.setItem("user", response.data.id)
+                    this.$store.dispatch('login')
+                    this.$router.push({ name: 'Dashboard' })
+                } else {
+                    alert('Nomor telepon tidak terdaftar')
+                }
+            })
         }
     }
 }

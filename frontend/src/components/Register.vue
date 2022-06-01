@@ -18,7 +18,6 @@
                 <div class="btn-group">
                     <a href="/" class="btn btn-outline-secondary">Cancel</a>
                     <input type="submit" value="Register" class="btn btn-primary">
-                    <!-- <router-link :to="{ name:'Product'}" class="btn btn-primary text-white fw-normal">Next</router-link> -->
                 </div>
             </div>
         </form>
@@ -38,13 +37,6 @@ export default {
             address     : ''
         }
     },
-    // created() {
-    //     axios
-    //     .get(this.$store.state.url + 'disaster/' + this.$route.params.id + '/edit')
-    //     .then(response => {
-    //         this.disaster = response.data
-    //     })
-    // },
     methods: {
         save() {
             var data = {
@@ -54,8 +46,9 @@ export default {
             }
             axios
             .post(this.$store.state.url + 'user', data)
-            .then(() => {
+            .then((response) => {
                 localStorage.setItem("telephone", this.telephone)
+                localStorage.setItem("user", response.data.id)
                 this.$store.dispatch('login')
                 this.$router.push({ name: 'Dashboard' })
             })

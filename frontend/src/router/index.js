@@ -47,7 +47,7 @@ const routes = [
         }
     },
     {
-        path        : '/product',
+        path        : '/product/:id',
         name        : 'Product',
         meta:{
           isAdminPage: false,
@@ -56,14 +56,14 @@ const routes = [
             return import('../components/Product')
         }
     },
-  {
+    {
     path: '/admin',
     name: 'Admin',
     meta:{
       isAdminPage: true
     },
     component: function () {
-      return import('../views/Admin')
+        return import('../views/Admin')
     },
     children:[
       {
@@ -121,8 +121,8 @@ const routes = [
 ]
 
 const router = createRouter({
-  history: createWebHistory(process.env.BASE_URL),
-  routes
+    history: createWebHistory(process.env.BASE_URL),
+    routes
 })
 
 export default router
