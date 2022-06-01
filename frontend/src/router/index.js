@@ -36,39 +36,38 @@ const routes = [
         }
     },
     {
-        path        : '/product',
+        path        : '/product/:id',
         name        : 'Product',
         component   : function () {
             return import('../components/Product')
         }
     },
-  {
+    {
     path: '/admin',
     name: 'Admin',
     component: function () {
-      return import('../views/Admin')
+        return import('../views/Admin')
     },
     children:[
-      {
-        name:'AdminDashboard',
-        path: '',
-        component:AdminDashboard,
-        meta: {
-          requiresAuth: true,
+        {
+            name:'AdminDashboard',
+            path: '',
+            component:AdminDashboard,
+            meta: {
+                requiresAuth: true,
+            },
         },
-      },
-      {
-        name:'LoginDashboard',
-        path: '/login',
-        component:AdminDashboard
-      },
-    ]
-  }
+        {
+            name:'LoginDashboard',
+            path: '/login',
+            component:AdminDashboard
+        }]
+    }
 ]
 
 const router = createRouter({
-  history: createWebHistory(process.env.BASE_URL),
-  routes
+    history: createWebHistory(process.env.BASE_URL),
+    routes
 })
 
 export default router

@@ -8,10 +8,10 @@ export default createStore({
     mutations: {
     },
     actions: {
-        login:function({commit, state}){
+        login:function({ commit, state }) {
             state.token = localStorage.getItem('telephone')
         },
-        logout:function({commit, state}){
+        logout:function({ commit, state }) {
             state.token = null
         }
     },

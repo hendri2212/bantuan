@@ -57,8 +57,8 @@
                     <label class="form-text">Address</label>
                     <h6>{{ profile.address }}</h6>
                 </div>
-                <div class="d-flex justify-content-end pt-3">
-                    <router-link :to="{ name: 'Product' }" class="btn btn-primary text-white fw-light">Menyumbang</router-link>
+                <div class="d-flex justify-content-end pt-3" v-if="disaster!=null">
+                    <router-link :to="{ name: 'Product', params:{ id: disaster.id } }" class="btn btn-primary text-white fw-light">Menyumbang</router-link>
                 </div>
             </div>
         </div>
@@ -70,7 +70,7 @@ export default {
     data() {
         return {
             disaster    : null,
-            profile     : ''
+            profile     : '',
         }
     },
     created() {
@@ -81,11 +81,9 @@ export default {
         })
         
         axios
-        // .get(this.$store.state.url + 'user/' + this.$store.state.telephone)
         .get(this.$store.state.url + 'profile/' + this.$store.state.token)
         .then(response => {
             this.profile = response.data
-            // console.log(response.data)
         })
     }
 }

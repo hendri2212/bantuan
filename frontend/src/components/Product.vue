@@ -53,7 +53,6 @@ export default {
     data() {
         return {
             categories  : null,
-            user        : null,
             products    : null,
 
             product     : '',
@@ -69,13 +68,7 @@ export default {
         })
         
         axios
-        .get(this.$store.state.url + 'user/1')
-        .then(response => {
-            this.user = response.data
-        })
-        
-        axios
-        .get(this.$store.state.url + 'products/7')
+        .get(this.$store.state.url + `products?user_id=${ localStorage.user }&disaster_id=${ this.$route.params.id }`)
         .then(response => {
             this.products = response.data
         })
@@ -85,9 +78,8 @@ export default {
             var data = {
                 product     : this.product,
                 total       : this.total,
-                user_id     : this.user.id,
-                // disaster_id : disaster.id,
-                disaster_id : 1,
+                user_id     : localStorage.user,
+                disaster_id : this.$route.params.id,
                 category_id : this.category
             }
             axios
