@@ -4,14 +4,21 @@ namespace App\Http\Controllers;
 
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
+    public function getForAdmin(Request $request){
+        $per_page = $request->get('per_page');
+        $search = $request->has('search') ? $request->get('search') : '';
+        if($per_page != 10 && $per_page != 20 && $per_page != 50){
+            $per_page = 10;
+        }
+        $user = User::where('name', 'like', '%'.$search.'%')->orderBy('created_at', 'desc')->paginate($per_page);
+        return response()->json($user, 200);
+    }
+
     public function index()
     {
         //

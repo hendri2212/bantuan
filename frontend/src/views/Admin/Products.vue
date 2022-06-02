@@ -2,21 +2,23 @@
     <div class="shadow bg-white">
         <nav class="navbar navbar-light pt-3 pb-0 d-flex justify-content-between">
             <span class="fs-4">{{ $route.meta.title }}</span>
-            <router-link class="btn btn-primary" :to="{name:'AdminCreateDisaster'}">Add Disaster</router-link>
+            <!-- <router-link class="btn btn-primary" :to="{name:'AdminCreateProducts'}">Add Product</router-link> -->
         </nav>
         <hr>
         <div>
-            <data-table filter :rows="disaster" :pagination="pagination" sn @loadData="getDisaster" :perPageOptions="[10, 20, 50]" :loading="loading" :query="query">
+            <data-table filter :rows="products" :pagination="pagination" sn @loadData="getProducts" :perPageOptions="[10, 20, 50]" :loading="loading" :query="query">
                 <template #thead>
-                    <table-head>DISASTER NAME</table-head>
-                    <table-head>INFORMATION</table-head>
-                    <table-head>LOCATION</table-head>
+                    <table-head>USER</table-head>
+                    <table-head>DISASTER</table-head>
+                    <table-head>PRODUCT</table-head>
+                    <table-head>TOTAL</table-head>
                     <table-head>ACTION</table-head>
                 </template>
                 <template #tbody="{row}">
-                    <table-body v-text="row.disaster_name"></table-body>
-                    <table-body v-text="`${row.information}...`"></table-body>
-                    <table-body v-text="row.location"></table-body>
+                    <table-body v-text="row.user.name"></table-body>
+                    <table-body v-text="row.disaster.disaster_name"></table-body>
+                    <table-body v-text="row.product"></table-body>
+                    <table-body v-text="row.total"></table-body>
                     <table-body>
                         <button class="btn btn-info">Edit</button>
                         <button class="btn btn-danger ms-2">Delete</button>
@@ -33,7 +35,7 @@
 </template>
 <script>
 import axios from 'axios'
-import { DataTable, TableHead, TableBody, TableBodyCell } from '@jobinsjp/vue3-datatable'
+import { DataTable, TableHead, TableBody, TableBodyCell} from '@jobinsjp/vue3-datatable'
 export default {
     name: "Disaster",
     components:{
@@ -46,7 +48,7 @@ export default {
         return {
             url:'http://127.0.0.1:8000',
             loading: true,
-            disaster:[],
+            products:[],
             pagination:{
                 per_page:10
             },
@@ -54,12 +56,12 @@ export default {
         }
     },
     methods:{
-        getDisaster: function ({page=1, per_page=15, search=''}){
+        getProducts: function ({page=1, per_page=15, search=''}){
             this.loading = true
             let isSearching = search ? `&search=${search}` : ''
-            axios.get(this.url + `/api/admin/disaster?page=${page}&per_page=${per_page}${isSearching}`).then(response => {
+            axios.get(this.url + `/api/admin/products?page=${page}&per_page=${per_page}${isSearching}`).then(response => {
                 if(response.data.data.length > 0){
-                    this.disaster = response.data.data
+                    this.products = response.data.data
                     this.pagination.page = response.data.current_page
                     this.pagination.total = response.data.total
                     this.pagination.per_page = 10

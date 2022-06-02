@@ -3,10 +3,9 @@ import App from './App.vue'
 // import './registerServiceWorker'
 import router from './router'
 import store from './store'
-import {ServerTable} from 'v-tables-3';
+import "@jobinsjp/vue3-datatable/dist/style.css"
 
 createApp(App)
 .use(store)
 .use(router)
-.use(ServerTable, {}, 'bootstrap5')
 .mount('#app')

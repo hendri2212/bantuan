@@ -3,6 +3,9 @@ import Dashboard from '../views/Dashboard'
 import Disaster from '../components/Disaster'
 import AdminDashboard from '../views/Admin/Dashboard'
 import AdminDisaster from '../views/Admin/Disaster'
+import AdminCreateDisaster from '../components/Admin/Disaster/CreateDisaster'
+import AdminUser from '../views/Admin/User'
+import AdminProducts from '../views/Admin/Products'
 
 const routes = [
     {
@@ -90,18 +93,36 @@ const routes = [
         },
       },
       {
+        name:'AdminCreateDisaster',
+        path: 'disaster/create',
+        component:AdminCreateDisaster,
+        meta: {
+          requiresAuth: true,
+          title: 'Create Disaster'
+        },
+      },
+      {
         name:'AdminUser',
         path: 'user',
-        component:AdminDashboard,
+        component:AdminUser,
         meta: {
           requiresAuth: true,
           title: 'User'
         },
       },
       {
+        name:'AdminCreateUser',
+        path: 'user/create',
+        component:AdminCreateDisaster,
+        meta: {
+          requiresAuth: true,
+          title: 'Create User'
+        },
+      },
+      {
         name:'AdminProducts',
         path: 'products',
-        component:AdminDashboard,
+        component:AdminProducts,
         meta: {
           requiresAuth: true,
           title: 'Products'

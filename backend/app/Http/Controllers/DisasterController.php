@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Disaster;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class DisasterController extends Controller
 {
@@ -18,7 +19,12 @@ class DisasterController extends Controller
     }
 
     public function getForAdmin(Request $request){
-        $disaster = Disaster::paginate(10);
+        $per_page = $request->get('per_page');
+        $search = $request->has('search') ? $request->get('search') : '';
+        if($per_page != 10 && $per_page != 20 && $per_page != 50){
+            $per_page = 10;
+        }
+        $disaster = Disaster::select('id', 'disaster_name', DB::raw('substr(information, 1, 20) as information'), 'location')->where('disaster_name', 'like', '%'.$search.'%')->orderBy('created_at', 'desc')->paginate($per_page);
         return response()->json($disaster, 200);
     }
 

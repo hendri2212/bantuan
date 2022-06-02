@@ -7,11 +7,15 @@ use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    public function getForAdmin(Request $request){
+        $per_page = $request->get('per_page');
+        $search = $request->has('search') ? $request->get('search') : '';
+        if($per_page != 10 && $per_page != 20 && $per_page != 50){
+            $per_page = 10;
+        }
+        $product = Product::with('user','disaster')->where('product', 'like', '%'.$search.'%')->orderBy('created_at', 'desc')->paginate($per_page);
+        return response()->json($product, 200);
+    }
     public function index()
     {
         //

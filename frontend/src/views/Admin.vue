@@ -1,6 +1,6 @@
 <template>
-    <div class="d-flex">
-        <div class="d-flex flex-column flex-shrink-0 p-3 bg-light shadow" style="width: 280px;height: 100vh">            <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
+    <div class="row w-100 overflow-hidden">
+        <div class="col-3 d-flex flex-column flex-shrink-0 p-3 bg-light shadow" style="height: 100vh">            <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
                 <img src="../assets/charity.jpg" class="me-2" width="40" height="40" alt="Banner Bencana">
                 <span class="fs-4">Bantuan Bencana</span>
             </a>
@@ -51,6 +51,6 @@
                 </li>
             </ul>
         </div>
-        <router-view></router-view>
+        <router-view class="col-9"></router-view>
     </div>
 </template>

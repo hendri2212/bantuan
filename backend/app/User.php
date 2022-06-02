@@ -38,4 +38,8 @@ class User extends Authenticatable
     ];
 
     protected $guarded = [];
+
+    public function product(){
+        return $this->hasMany(Product::class, 'user_id', 'id');
+    }
 }
