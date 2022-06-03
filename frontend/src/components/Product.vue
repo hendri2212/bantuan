@@ -34,7 +34,14 @@
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="(data, index) in products" :key="index">
+                <tr v-if="products==null">
+                    <td colspan="4" class="text-center py-5">
+                        <div class="spinner-border" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </td>
+                </tr>
+                <tr v-for="(data, index) in products" :key="index" v-else>
                     <th scope="row">{{ index+1 }}</th>
                     <td>{{ data.category.category }}</td>
                     <td>{{ data.product }}</td>

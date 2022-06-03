@@ -2,7 +2,7 @@
     <div>
         <Header v-if="!$route.meta.isAdminPage"></Header>
         <router-view/>
-        <label class="fixed-bottom text-center form-text bg-white" v-if="!$route.meta.isAdminPage">Powered by Hendri Arifin</label>
+        <!-- <label class="fixed-bottom text-center form-text bg-white" v-if="!$route.meta.isAdminPage">Powered by Hendri Arifin</label> -->
     </div>
 </template>
 <script>
