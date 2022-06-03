@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateVictimTable extends Migration
+class CreateCategoryTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,10 @@ class CreateVictimTable extends Migration
      */
     public function up()
     {
-        Schema::create('victims', function (Blueprint $table) {
+        Schema::create('categories', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('gender');
-            $table->integer('age');
-            $table->text('address');
-            $table->unsignedBigInteger('disaster_id')->nullable()->index();
+            $table->string('category');
             $table->timestamps();
-            $table->foreign('disaster_id')->references('id')->on('disasters')->onDelete('restrict');
         });
     }
 

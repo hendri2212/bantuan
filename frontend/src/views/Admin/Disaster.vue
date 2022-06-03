@@ -19,7 +19,7 @@
                     <table-body v-text="row.location"></table-body>
                     <table-body>
                         <button class="btn btn-info">Edit</button>
-                        <button class="btn btn-danger ms-2">Delete</button>
+                        <button @click="deleteDisaster(row.id)" class="btn btn-danger ms-2">Delete</button>
                     </table-body>
                 </template>
                 <template #empty>
@@ -33,6 +33,7 @@
 </template>
 <script>
 import axios from 'axios'
+axios.defaults.baseURL = 'http://127.0.0.1:8000/api/admin'
 import { DataTable, TableHead, TableBody, TableBodyCell } from '@jobinsjp/vue3-datatable'
 export default {
     name: "Disaster",
@@ -44,7 +45,6 @@ export default {
     },
     data(){
         return {
-            url:'http://127.0.0.1:8000',
             loading: true,
             disaster:[],
             pagination:{
@@ -57,7 +57,7 @@ export default {
         getDisaster: function ({page=1, per_page=15, search=''}){
             this.loading = true
             let isSearching = search ? `&search=${search}` : ''
-            axios.get(this.url + `/api/admin/disaster?page=${page}&per_page=${per_page}${isSearching}`).then(response => {
+            axios.get(`/disaster?page=${page}&per_page=${per_page}${isSearching}`).then(response => {
                 if(response.data.data.length > 0){
                     this.disaster = response.data.data
                     this.pagination.page = response.data.current_page
@@ -69,6 +69,17 @@ export default {
                 this.loading = false
             })
             
+        },
+        deleteDisaster: function(id){
+            axios.delete(`/disaster/${id}`).then(response => {
+                let index = this.disaster.findIndex(p => {
+                    return p.id == id
+                })
+                this.disaster.splice(index, 1)
+                alert(response.data)
+            }).catch(response => {
+                alert(response.data)
+            })
         }
     },
 }

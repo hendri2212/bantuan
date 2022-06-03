@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Disaster;
+use App\Product;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 class DisasterController extends Controller
 {
@@ -36,7 +39,24 @@ class DisasterController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validator = Validator::make($request->all(),[
+            'disaster_name' => 'required|string',
+            'date' => 'required|date',
+            'location' => 'required|string',
+            'information' => 'required|string',
+        ]);
+        if($validator->fails()){
+            return response()->json($validator->errors(), 500);
+        }
+
+        try {
+            $disaster = new Disaster($request->only('disaster_name', 'date', 'location', 'information'));
+            $disaster->save();
+            return response()->json("This disaster has been successfully added!", 201);
+        }catch(Exception $e){
+            return response()->json($e, 500);
+        }
+        
     }
 
     /**
@@ -45,9 +65,9 @@ class DisasterController extends Controller
      * @param  \App\Disaster  $disaster
      * @return \Illuminate\Http\Response
      */
-    public function show(Disaster $disaster)
+    public function show($id)
     {
-        //
+        return response()->json(Disaster::find($id), 200);
     }
 
     public function edit($id)
@@ -62,9 +82,29 @@ class DisasterController extends Controller
      * @param  \App\Disaster  $disaster
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Disaster $disaster)
+    public function update(Request $request, $id)
     {
-        //
+        $validator = Validator::make($request->all(),[
+            'disaster_name' => 'required|string',
+            'date' => 'required|date',
+            'location' => 'required|string',
+            'information' => 'required|string',
+        ]);
+        if($validator->fails()){
+            return response()->json($validator->errors(), 500);
+        }
+
+        try {
+            $disaster = Disaster::find($id);
+            $disaster->disaster_name = $request->disaster_name;
+            $disaster->date = $request->date;
+            $disaster->location = $request->location;
+            $disaster->information = $request->information;
+            $disaster->save();
+            return response()->json("This disaster has been successfully edited!", 200);
+        }catch(Exception $e){
+            return response()->json($e, 500);
+        }
     }
 
     /**
@@ -73,8 +113,15 @@ class DisasterController extends Controller
      * @param  \App\Disaster  $disaster
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Disaster $disaster)
+    public function destroy($id)
     {
-        //
+        $check_products = Product::where('disaster_id', $id)->exists();
+        if($check_products){
+            return response()->json("This disaster has been used by products, so it cannot be deleted!", 500);
+        }else{
+            $disaster = Disaster::find($id);
+            $disaster->delete();
+            return response()->json("This disaster has been successfully deleted!", 200);
+        }
     }
 }

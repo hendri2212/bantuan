@@ -26,6 +26,10 @@ Route::get('profile/{id}', 'UserController@profile');
 Route::get('products', 'ProductController@products');
 Route::prefix('admin')->group(function($route){
     $route->get('disaster', 'DisasterController@getForAdmin');
+    $route->post('disaster', 'DisasterController@store');
+    $route->get('disaster/{id}', 'DisasterController@show');
+    $route->post('disaster/{id}', 'DisasterController@update');
+    $route->delete('disaster/{id}', 'DisasterController@destroy');
     $route->get('user', 'UserController@getForAdmin');
     $route->get('products', 'ProductController@getForAdmin');
 });
