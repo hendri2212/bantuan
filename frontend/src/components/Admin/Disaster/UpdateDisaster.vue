@@ -5,7 +5,7 @@
             <router-link class="btn btn-primary" :to="{name:'AdminDisaster'}">Back To List Disaster</router-link>
         </nav>
         <hr>
-        <form class="form" @submit.prevent="createDisaster">
+        <form class="form" @submit.prevent="updateDisaster">
             <div class="mb-3">
                 <label class="form-label">Disaster</label>
                 <input type="text" class="form-control" v-model="disaster_name">
@@ -22,7 +22,7 @@
                 <label class="form-label">Information</label>
                 <textarea class="form-control" v-model="information" rows="10"></textarea>
             </div>
-            <button type="submit" class="btn btn-success">Create Disaster</button>
+            <button type="submit" class="btn btn-success">Update Disaster</button>
         </form>
     </div>
 </template>
@@ -39,28 +39,38 @@ export default {
             information:'',
         }
     },
+    created(){
+        axios.get(`/disaster/${this.$route.params.id}`).then(response => {
+            this.disaster_name = response.data.disaster_name
+            this.date = response.data.date
+            this.location = response.data.location
+            this.information = response.data.information
+        }).catch(e => {
+            this.$router.push({name:'AdminDisaster'})
+        })
+    },  
     methods:{
-        createDisaster: function() {
+        updateDisaster: function() {
             let formData = {
                 disaster_name: this.disaster_name,
                 date: this.date,
                 location: this.location,
                 information: this.information
             }
-            axios.post('/disaster', formData).then(response => {
+            axios.post(`/disaster/${this.$route.params.id}`, formData).then(response => {
+                alert(response.data)
                 // this.$swal({
                 //     icon: 'success',
                 //     title: 'Success',
                 //     text: response.data,
                 // })
-                alert(response.data)
             }).catch(response => {
+                alert(response.response.data)
                 // this.$swal({
                 //     icon: 'error',
                 //     title: 'Oops...',
                 //     text: response.response.data,
                 // })
-                alert(response.response.data)
             })
         }
     }

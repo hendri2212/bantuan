@@ -12,17 +12,17 @@
                     <table-head>DISASTER</table-head>
                     <table-head>PRODUCT</table-head>
                     <table-head>TOTAL</table-head>
-                    <table-head>ACTION</table-head>
+                    <!-- <table-head>ACTION</table-head> -->
                 </template>
                 <template #tbody="{row}">
                     <table-body v-text="row.user.name"></table-body>
                     <table-body v-text="row.disaster.disaster_name"></table-body>
                     <table-body v-text="row.product"></table-body>
                     <table-body v-text="row.total"></table-body>
-                    <table-body>
+                    <!-- <table-body>
                         <button class="btn btn-info">Edit</button>
                         <button class="btn btn-danger ms-2">Delete</button>
-                    </table-body>
+                    </table-body> -->
                 </template>
                 <template #empty>
                     <TableBodyCell colspan="2">

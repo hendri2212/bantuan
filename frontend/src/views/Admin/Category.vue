@@ -2,25 +2,21 @@
     <div class="shadow bg-white">
         <nav class="navbar navbar-light pt-3 pb-0 d-flex justify-content-between">
             <span class="fs-4">{{ $route.meta.title }}</span>
-            <!-- <router-link class="btn btn-primary" :to="{name:'AdminCreateUser'}">Add User</router-link> -->
+            <router-link class="btn btn-primary" :to="{name:'AdminCreateCategory'}">Add Category</router-link>
         </nav>
         <hr>
         <div>
-            <data-table filter :rows="user" :pagination="pagination" sn @loadData="getUser" :perPageOptions="[10, 20, 50]" :loading="loading" :query="query">
+            <data-table filter :rows="category" :pagination="pagination" sn @loadData="getCategory" :perPageOptions="[10, 20, 50]" :loading="loading" :query="query">
                 <template #thead>
-                    <table-head>NAME</table-head>
-                    <table-head>TELEPHONE</table-head>
-                    <table-head>ADDRESS</table-head>
-                    <!-- <table-head>ACTION</table-head> -->
+                    <table-head>CATEGORY</table-head>
+                    <table-head>ACTION</table-head>
                 </template>
                 <template #tbody="{row}">
-                    <table-body v-text="row.name"></table-body>
-                    <table-body v-text="row.telephone"></table-body>
-                    <table-body v-text="row.address"></table-body>
-                    <!-- <table-body>
-                        <button class="btn btn-info">Edit</button>
-                        <button class="btn btn-danger ms-2">Delete</button>
-                    </table-body> -->
+                    <table-body v-text="row.category"></table-body>
+                    <table-body>
+                        <router-link :to="{name:'AdminUpdateCategory', params:{id:row.id}}" class="btn btn-info">Edit</router-link>
+                        <button @click="deleteCategory(row.id)" class="btn btn-danger ms-2">Delete</button>
+                    </table-body>
                 </template>
                 <template #empty>
                     <TableBodyCell colspan="2">
@@ -33,6 +29,7 @@
 </template>
 <script>
 import axios from 'axios'
+axios.defaults.baseURL = 'http://127.0.0.1:8000/api/admin'
 import { DataTable, TableHead, TableBody, TableBodyCell } from '@jobinsjp/vue3-datatable'
 export default {
     name: "Disaster",
@@ -44,9 +41,8 @@ export default {
     },
     data(){
         return {
-            url:'http://127.0.0.1:8000',
             loading: true,
-            user:[],
+            category:[],
             pagination:{
                 per_page:10
             },
@@ -54,12 +50,12 @@ export default {
         }
     },
     methods:{
-        getUser: function ({page=1, per_page=15, search=''}){
+        getCategory: function ({page=1, per_page=15, search=''}){
             this.loading = true
             let isSearching = search ? `&search=${search}` : ''
-            axios.get(this.url + `/api/admin/user?page=${page}&per_page=${per_page}${isSearching}`).then(response => {
+            axios.get(`/category?page=${page}&per_page=${per_page}${isSearching}`).then(response => {
                 if(response.data.data.length > 0){
-                    this.user = response.data.data
+                    this.category = response.data.data
                     this.pagination.page = response.data.current_page
                     this.pagination.total = response.data.total
                     this.pagination.per_page = 10
@@ -69,6 +65,17 @@ export default {
                 this.loading = false
             })
             
+        },
+        deleteCategory: function(id){
+            axios.delete(`/category/${id}`).then(response => {
+                let index = this.category.findIndex(p => {
+                    return p.id == id
+                })
+                this.category.splice(index, 1)
+                alert(response.data)
+            }).catch(response => {
+                alert(response.response.data)
+            })
         }
     },
 }

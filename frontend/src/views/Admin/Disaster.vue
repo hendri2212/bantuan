@@ -18,7 +18,7 @@
                     <table-body v-text="`${row.information}...`"></table-body>
                     <table-body v-text="row.location"></table-body>
                     <table-body>
-                        <button class="btn btn-info">Edit</button>
+                        <router-link :to="{name:'AdminUpdateDisaster', params:{id:row.id}}" class="btn btn-info">Edit</router-link>
                         <button @click="deleteDisaster(row.id)" class="btn btn-danger ms-2">Delete</button>
                     </table-body>
                 </template>
@@ -78,7 +78,7 @@ export default {
                 this.disaster.splice(index, 1)
                 alert(response.data)
             }).catch(response => {
-                alert(response.data)
+                alert(response.response.data)
             })
         }
     },

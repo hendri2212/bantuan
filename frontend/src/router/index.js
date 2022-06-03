@@ -4,8 +4,16 @@ import Disaster from '../components/Disaster'
 import AdminDashboard from '../views/Admin/Dashboard'
 import AdminDisaster from '../views/Admin/Disaster'
 import AdminCreateDisaster from '../components/Admin/Disaster/CreateDisaster'
+import AdminUpdateDisaster from '../components/Admin/Disaster/UpdateDisaster'
+import AdminCategory from '../views/Admin/Category'
+import AdminCreateCategory from '../components/Admin/Category/CreateCategory'
+import AdminUpdateCategory from '../components/Admin/Category/UpdateCategory'
 import AdminUser from '../views/Admin/User'
 import AdminProducts from '../views/Admin/Products'
+import AdminAccount from '../views/Admin/AdminAccount'
+import AdminCreateAdmin from '../components/Admin/AdminAccount/CreateAdminAccount'
+import AdminUpdateAdmin from '../components/Admin/AdminAccount/UpdateAdminAccount'
+import AdminLogin from '../views/Admin/Login'
 
 const routes = [
     {
@@ -70,9 +78,9 @@ const routes = [
     },
     children:[
       {
-        name:'LoginDashboard',
+        name:'AdminLogin',
         path: 'login',
-        component:AdminDashboard
+        component:AdminLogin
       },
       {
         name:'AdminDashboard',
@@ -99,6 +107,15 @@ const routes = [
         meta: {
           requiresAuth: true,
           title: 'Create Disaster'
+        },
+      },
+      {
+        name:'AdminUpdateDisaster',
+        path: 'disaster/:id',
+        component:AdminUpdateDisaster,
+        meta: {
+          requiresAuth: true,
+          title: 'Update Disaster'
         },
       },
       {
@@ -131,10 +148,55 @@ const routes = [
       {
         name:'AdminCategory',
         path: 'category',
-        component:AdminDashboard,
+        component:AdminCategory,
         meta: {
           requiresAuth: true,
           title: 'Category'
+        },
+      },
+      {
+        name:'AdminCreateCategory',
+        path: 'category/create',
+        component:AdminCreateCategory,
+        meta: {
+          requiresAuth: true,
+          title: 'Create Category'
+        },
+      },
+      {
+        name:'AdminUpdateCategory',
+        path: 'category/:id',
+        component:AdminUpdateCategory,
+        meta: {
+          requiresAuth: true,
+          title: 'Update Category'
+        },
+      },
+      {
+        name:'AdminAccount',
+        path: 'admin-account',
+        component:AdminAccount,
+        meta: {
+          requiresAuth: true,
+          title: 'Admin Account'
+        },
+      },
+      {
+        name:'AdminCreateAdmin',
+        path: 'admin-account/create',
+        component:AdminCreateAdmin,
+        meta: {
+          requiresAuth: true,
+          title: 'Create Admin Account'
+        },
+      },
+      {
+        name:'AdminUpdateAdmin',
+        path: 'admin-account/:id',
+        component:AdminUpdateAdmin,
+        meta: {
+          requiresAuth: true,
+          title: 'Update Admin Account'
         },
       },
     ]
