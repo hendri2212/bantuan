@@ -3,6 +3,7 @@
 use Illuminate\Database\Seeder;
 use Faker\Factory as Faker;
 use App\Admin;
+use Illuminate\Support\Facades\Hash;
 
 class AdminSeeder extends Seeder
 {
@@ -18,7 +19,7 @@ class AdminSeeder extends Seeder
             $insert = new Admin;
             $insert->name       = $faker->name();
             $insert->username   = 'admin';
-            $insert->password   = 'admin';
+            $insert->password   = Hash::make('admin');
             $insert->role       = 'admin';
             $insert->save();
         // }

@@ -43,6 +43,7 @@ export default {
                 password: this.password
             }).then(response => {
                 localStorage.setItem('token-admin', response.data);
+                this.$router.push({name:'AdminDashboard'})
             }).catch(response => {
                 alert(response.response.data)
             })

@@ -1,9 +1,14 @@
 <template>
     <div class="row w-100 overflow-hidden">
-        <div v-if="$route.name != 'AdminLogin'" class="col-3 d-flex flex-column flex-shrink-0 p-3 bg-light shadow" style="height: 100vh">            <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
-                <img src="../assets/charity.jpg" class="me-2" width="40" height="40" alt="Banner Bencana">
-                <span class="fs-4">Bantuan Bencana</span>
-            </a>
+        <div v-if="$route.name != 'AdminLogin'" class="col-3 d-flex flex-column flex-shrink-0 p-3 bg-light shadow" style="height: 100vh">            
+            <div class="d-flex">
+                <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
+                    <img src="../assets/charity.jpg" class="me-2" width="40" height="40" alt="Banner Bencana">
+                    <span class="fs-4">Bantuan Bencana</span>
+                    
+                </a>
+                <button @click="logout" class="btn btn-danger">Logout</button>
+            </div>
             <hr>
             <ul class="nav nav-pills flex-column">
                 <li class="nav-item">
@@ -63,3 +68,27 @@
         <router-view class="col-9"></router-view>
     </div>
 </template>
+<script>
+import axios from 'axios'
+axios.defaults.baseURL = "http://127.0.0.1:8000/api/admin"
+axios.defaults.params = {}
+axios.defaults.params['token'] = localStorage.getItem('token-admin')
+export default {
+    created(){
+        if(this.$route.name != 'AdminLogin'){
+            axios.get('/authentication').catch(() => {
+                localStorage.removeItem('token-admin')
+                this.$router.push({name:'AdminLogin'})
+            })
+        }
+    },
+    methods:{
+        logout(){
+            axios.post('/logout').then(response => {
+                localStorage.removeItem('token-admin')
+                this.$router.push({name:'AdminLogin'})
+            })
+        }
+    }
+}
+</script>

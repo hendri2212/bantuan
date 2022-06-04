@@ -12,6 +12,16 @@ use Illuminate\Support\Str;
 
 class AdminController extends Controller
 {
+    public function authentication(Request $request){
+        if($request->has('token')){
+            $check = Admin::where('token', $request->token)->exists();
+            if($check){
+                return response()->json("Is authenticated", 200);
+            }
+        }
+        return response()->json("Is not authenticated", 500);
+    }
+
     public function login(Request $request){
         $validator = Validator::make($request->all(),[
             'username' => 'required|string',
@@ -31,6 +41,18 @@ class AdminController extends Controller
             }
         }
         return response()->json('Failed to login!', 500);
+    }
+
+    public function logout(Request $request){
+        if($request->has('token')){
+            $check = Admin::where('token', $request->token)->first();
+            if($check){
+                $check->token = null;
+                $check->save();
+                return response()->json("Successfully to logout from admin page", 200);
+            }
+        }
+        return response()->json("Can't access this route", 500);
     }
 
     public function index(Request $request)

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Admin;
 use App\Disaster;
 use App\Product;
 use Exception;
@@ -50,7 +51,13 @@ class DisasterController extends Controller
         }
 
         try {
-            $disaster = new Disaster($request->only('disaster_name', 'date', 'location', 'information'));
+            $getAdmin = Admin::where('token', $request->token)->first();
+            $disaster = new Disaster;
+            $disaster->disaster_id = $getAdmin->id;
+            $disaster->disaster_name = $request->disaster_name;
+            $disaster->date = $request->date;
+            $disaster->location = $request->location;
+            $disaster->information = $request->information;
             $disaster->save();
             return response()->json("This disaster has been successfully added!", 201);
         }catch(Exception $e){
@@ -95,7 +102,9 @@ class DisasterController extends Controller
         }
 
         try {
+            $getAdmin = Admin::where('token', $request->token)->first();
             $disaster = Disaster::find($id);
+            $disaster->disaster_id = $getAdmin->id;
             $disaster->disaster_name = $request->disaster_name;
             $disaster->date = $request->date;
             $disaster->location = $request->location;

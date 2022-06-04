@@ -80,7 +80,10 @@ const routes = [
       {
         name:'AdminLogin',
         path: 'login',
-        component:AdminLogin
+        component:AdminLogin,
+        meta: {
+          requiresAuth: false,
+        },
       },
       {
         name:'AdminDashboard',
@@ -206,6 +209,17 @@ const routes = [
 const router = createRouter({
     history: createWebHistory(process.env.BASE_URL),
     routes
+})
+
+router.beforeEach(async (to, from, next) => {
+  let isAuthenticated = localStorage.getItem('token-admin')
+  if (to.meta.requiresAuth && to.name !== 'AdminLogin' && !isAuthenticated){
+    next({ name: 'AdminLogin' })
+  } else if(to.name == 'AdminLogin' && isAuthenticated) {
+    next({ name: 'AdminDashboard' })
+  }else{
+    next() 
+  }
 })
 
 export default router
