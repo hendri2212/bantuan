@@ -4,7 +4,7 @@
             <span class="fs-4">{{ $route.meta.title }}</span>
         </nav>
         <hr>
-        <div class="d-flex justify-content-between">
+        <div class="d-flex">
             <div class="card text-bg-danger mb-3" style="width: 15rem;">
                 <div class="card-header">Bencana</div>
                 <div class="card-body text-center">
