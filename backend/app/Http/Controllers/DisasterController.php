@@ -53,7 +53,7 @@ class DisasterController extends Controller
         try {
             $getAdmin = Admin::where('token', $request->token)->first();
             $disaster = new Disaster;
-            $disaster->disaster_id = $getAdmin->id;
+            $disaster->admin_id = $getAdmin->id;
             $disaster->disaster_name = $request->disaster_name;
             $disaster->date = $request->date;
             $disaster->location = $request->location;
@@ -109,7 +109,7 @@ class DisasterController extends Controller
         try {
             $getAdmin = Admin::where('token', $request->token)->first();
             $disaster = Disaster::find($id);
-            $disaster->disaster_id = $getAdmin->id;
+            $disaster->admin_id = $getAdmin->id;
             $disaster->disaster_name = $request->disaster_name;
             $disaster->date = $request->date;
             $disaster->location = $request->location;
