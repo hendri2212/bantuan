@@ -82,6 +82,11 @@ class DisasterController extends Controller
         return Disaster::find($id);
     }
 
+    public function count()
+    {
+        return Disaster::count();
+    }
+
     /**
      * Update the specified resource in storage.
      *

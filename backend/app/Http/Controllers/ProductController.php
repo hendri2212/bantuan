@@ -18,7 +18,7 @@ class ProductController extends Controller
     }
     public function index()
     {
-        //
+        return Product::count();
     }
 
     /**

@@ -24,6 +24,7 @@ Route::resource('categories', 'CategoryController');
 Route::resource('product', 'ProductController');
 Route::get('profile/{id}', 'UserController@profile');
 Route::get('products', 'ProductController@products');
+Route::get('count', 'DisasterController@count');
 Route::prefix('admin')->group(function($route){
     $route->get('authentication', 'AdminController@authentication');
     $route->post('login', 'AdminController@login');
