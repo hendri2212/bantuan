@@ -33,6 +33,12 @@
                     <span class="placeholder bg-secondary col-4"></span>
                 </p>
                 <p v-else>{{ disaster.date }}</p>
+                <span class="bg-light border-bottom border-1 border-warning mb-1">Image Disaster</span>
+                <div class="d-flex">
+                    <div class="col"><img src="../assets/banner-development.png" class="img-fluid"></div>
+                    <div class="col px-1"><img src="../assets/banner-development.png" class="img-fluid"></div>
+                    <div class="col"><img src="../assets/banner-development.png" class="img-fluid"></div>
+                </div>
             </div>
         </div>
         

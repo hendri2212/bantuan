@@ -24,6 +24,20 @@
             </div>
             <button type="submit" class="btn btn-success">Update Disaster</button>
         </form>
+        <div class="d-flex mt-3">
+            <div class="col-4">
+                <img src="../../../assets/banner-development.png" class="img-fluid">
+                <input type="button" value="upload" class="btn btn-info btn-sm mt-2">
+            </div>
+            <div class="col-4 mx-2">
+                <img src="../../../assets/banner-development.png" class="img-fluid">
+                <input type="button" value="upload" class="btn btn-info btn-sm mt-2">
+            </div>
+            <div class="col-4">
+                <img src="../../../assets/banner-development.png" class="img-fluid">
+                <input type="button" value="upload" class="btn btn-info btn-sm mt-2">
+            </div>
+        </div>
     </div>
 </template>
 <script>
