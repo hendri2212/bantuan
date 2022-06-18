@@ -35,9 +35,9 @@
                 <p v-else>{{ disaster.date }}</p>
                 <span class="bg-light border-bottom border-1 border-warning mb-1">Image Disaster</span>
                 <div class="d-flex">
-                    <div class="col"><img src="../assets/banner-development.png" class="img-fluid"></div>
-                    <div class="col px-1"><img src="../assets/banner-development.png" class="img-fluid"></div>
-                    <div class="col"><img src="../assets/banner-development.png" class="img-fluid"></div>
+                    <div class="col" v-for="(data, index) in gambar" :key="index">
+                        <img :src="data.url" class="img-fluid" style="padding-right: 5px">
+                    </div>
                 </div>
             </div>
         </div>
@@ -77,6 +77,7 @@ export default {
         return {
             disaster    : null,
             profile     : '',
+            gambar      : ''
         }
     },
     created() {
@@ -90,6 +91,12 @@ export default {
         .get(this.$store.state.url + 'profile/' + this.$store.state.token)
         .then(response => {
             this.profile = response.data
+        })
+
+        axios.get(this.$store.state.url + 'tampil/'+ this.$route.params.id).then(response => {
+            this.gambar = response.data
+        }).catch(e => {
+            console.log(e)
         })
     }
 }

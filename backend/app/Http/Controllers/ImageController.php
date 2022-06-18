@@ -35,8 +35,14 @@ class ImageController extends Controller
      */
     public function store(Request $request)
     {
-        //
-        return Image::create($request->all());
+        $save = new Image;
+
+        $save->url          = $request->url;
+        $save->disaster_id  = $request->disaster_id;
+        $save->save();
+        return response()->json('Success', 200);
+
+        // return Image::create($request->all());
     }
 
     /**
@@ -48,6 +54,11 @@ class ImageController extends Controller
     public function show(Image $image)
     {
         //
+    }
+
+    public function tampil($id)
+    {
+        return Image::where('disaster_id', $id)->limit(3)->orderBy('id', 'desc')->get();
     }
 
     /**

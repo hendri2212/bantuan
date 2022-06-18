@@ -24,21 +24,22 @@
             </div>
             <button type="submit" class="btn btn-success">Update Disaster</button>
         </form>
-        <input type="file" @change="onFileSelected">
-        <input type="button" value="upload" @click="onUpload">
         <div class="d-flex mt-3">
-            <div class="col-4">
-                <img src="../../../assets/banner-development.png" class="img-fluid">
-                <input type="button" value="upload" class="btn btn-info btn-sm mt-2">
+            <div class="col-3" v-for="(data, index) in gambar" :key="index">
+                <div style="min-height: 181px; max-height: 181px">
+                    <img :src="data.url" class="img-fluid" style="max-height: 181px">
+                </div>
             </div>
-            <div class="col-4 mx-2">
-                <img src="../../../assets/banner-development.png" class="img-fluid">
-                <input type="button" value="upload" class="btn btn-info btn-sm mt-2">
-            </div>
-            <div class="col-4">
-                <img src="../../../assets/banner-development.png" class="img-fluid">
-                <input type="button" value="upload" class="btn btn-info btn-sm mt-2">
-            </div>
+        </div>
+        <input
+            type="file"
+            @change="onFileSelected"
+            style="display: none"
+            ref="fileInput"
+        >
+        <div class="btn-group mt-2">
+            <button @click="$refs.fileInput.click()" class="btn btn-info btn-sm">Cari Gambar</button>
+            <input type="button" value="upload" @click="onUpload" class="btn btn-primary btn-sm">
         </div>
     </div>
 </template>
@@ -56,6 +57,7 @@ export default {
             location        :'',
             information     :'',
             selectedFile    : null,
+            gambar          : ''
         }
     },
     created(){
@@ -67,7 +69,14 @@ export default {
         }).catch(e => {
             this.$router.push({name:'AdminDisaster'})
         })
-    },  
+    },
+    mounted(){
+        axios.get(this.$store.state.url + 'tampil/'+ this.$route.params.id).then(response => {
+            this.gambar = response.data
+        }).catch(e => {
+            console.log(e)
+        })
+    },
     methods:{
         updateDisaster: function() {
             let formData = {
@@ -93,14 +102,23 @@ export default {
             })
         },
         onFileSelected(event) {
-            // console.log(event.target.files[0])
             this.selectedFile = event.target.files[0]
         },
         onUpload() {
             let formData = new FormData()
             formData.append('image', this.selectedFile, this.selectedFile.name)
-            axios.post('https://api.imgbb.com/1/upload?expiration=600&key=6106a7120cb6d336f105bf4e0be9e9bb', formData).then(response => {
-                axios.post(this.$store.state.url + 'image/',{ url: response.data.data.thumb.url, disaster_id: this.$route.params.id })
+            axios.post('https://api.imgbb.com/1/upload?key=6106a7120cb6d336f105bf4e0be9e9bb',
+                formData, {
+                    onUploadProgress: uploadEvent => {
+                        console.log('Upload Progress:' + Math.round(uploadEvent.loaded / uploadEvent.total * 100) + '%')
+                    }
+                }).then(response => {
+                this.gambar = response.data.data.thumb.url
+                axios
+                .post(this.$store.state.url + 'image/',{ url: response.data.data.thumb.url, disaster_id: this.$route.params.id })
+                .then(response => {
+                    this.$router.go(this.$router.currentRoute)
+                })
             }).catch(response => {
                 console.log(response.response.data)
             })
