@@ -24,6 +24,8 @@
             </div>
             <button type="submit" class="btn btn-success">Update Disaster</button>
         </form>
+        <input type="file" @change="onFileSelected">
+        <input type="button" value="upload" @click="onUpload">
         <div class="d-flex mt-3">
             <div class="col-4">
                 <img src="../../../assets/banner-development.png" class="img-fluid">
@@ -49,10 +51,11 @@ export default {
     name:"CreateDisaster",
     data(){
         return {
-            disaster_name:'',
-            date:'',
-            location:'',
-            information:'',
+            disaster_name   :'',
+            date            :'',
+            location        :'',
+            information     :'',
+            selectedFile    : null,
         }
     },
     created(){
@@ -87,6 +90,19 @@ export default {
                 //     title: 'Oops...',
                 //     text: response.response.data,
                 // })
+            })
+        },
+        onFileSelected(event) {
+            // console.log(event.target.files[0])
+            this.selectedFile = event.target.files[0]
+        },
+        onUpload() {
+            let formData = new FormData()
+            formData.append('image', this.selectedFile, this.selectedFile.name)
+            axios.post('https://api.imgbb.com/1/upload?expiration=600&key=6106a7120cb6d336f105bf4e0be9e9bb', formData).then(response => {
+                axios.post(this.$store.state.url + 'image/',{ url: response.data.data.thumb.url, disaster_id: this.$route.params.id })
+            }).catch(response => {
+                console.log(response.response.data)
             })
         }
     }

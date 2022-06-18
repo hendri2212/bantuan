@@ -22,6 +22,7 @@ Route::resource('disaster', 'DisasterController');
 Route::resource('user', 'UserController');
 Route::resource('categories', 'CategoryController');
 Route::resource('product', 'ProductController');
+Route::resource('image', 'ImageController');
 Route::get('profile/{id}', 'UserController@profile');
 Route::get('products', 'ProductController@products');
 Route::get('count', 'DisasterController@count');
