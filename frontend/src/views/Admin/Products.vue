@@ -5,8 +5,10 @@
             <!-- <router-link class="btn btn-primary" :to="{name:'AdminCreateProducts'}">Add Product</router-link> -->
         </nav>
         <hr>
-        <div>
-            <data-table filter :rows="products" :pagination="pagination" sn @loadData="getProducts" :perPageOptions="[10, 20, 50]" :loading="loading" :query="query">
+        <div id="print">
+            <h3 class="text-center mb-3">LAPORAN DATA BARANG</h3>
+            <!-- <data-table filter :rows="products" :pagination="pagination" sn @loadData="getProducts" :perPageOptions="[10, 20, 50]" :loading="loading" :query="query"> -->
+            <data-table filter :rows="products" sn @loadData="getProducts" :loading="loading" :query="query">
                 <template #thead>
                     <table-head>USER</table-head>
                     <table-head>DISASTER</table-head>
@@ -31,6 +33,7 @@
                 </template>
             </data-table>
         </div>
+        <input type="button" value="Cetak Laporan" class="btn btn-warning mt-3 float-end" @click="print('print')">
     </div>
 </template>
 <script>
@@ -71,6 +74,13 @@ export default {
                 this.loading = false
             })
             
+        },
+        print: function(id){
+            var printContents = document.getElementById(id).innerHTML;
+            var originalContents = document.body.innerHTML;
+            document.body.innerHTML = printContents;
+            window.print();
+            document.body.innerHTML = originalContents;
         }
     },
 }

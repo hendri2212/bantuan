@@ -69,8 +69,7 @@ export default {
         }).catch(e => {
             this.$router.push({name:'AdminDisaster'})
         })
-    },
-    mounted(){
+
         axios.get(this.$store.state.url + 'tampil/'+ this.$route.params.id).then(response => {
             this.gambar = response.data
         }).catch(e => {
@@ -107,7 +106,7 @@ export default {
         onUpload() {
             let formData = new FormData()
             formData.append('image', this.selectedFile, this.selectedFile.name)
-            axios.post('https://api.imgbb.com/1/upload?key=6106a7120cb6d336f105bf4e0be9e9bb',
+            axios.post('https://api.imgbb.com/1/upload?expiration=15552000&key=6106a7120cb6d336f105bf4e0be9e9bb',
                 formData, {
                     onUploadProgress: uploadEvent => {
                         console.log('Upload Progress:' + Math.round(uploadEvent.loaded / uploadEvent.total * 100) + '%')

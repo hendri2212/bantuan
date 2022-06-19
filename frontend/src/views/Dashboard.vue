@@ -2,8 +2,9 @@
     <div id="nav" class="containerx bg-light">
         <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
             <div class="carousel-inner">
-                <div class="carousel-item active">
-                    <img src="../assets/banner-development.png" class="d-block w-100" alt="Banner Bencana">
+                <div class="carousel-item active" v-for="(data, index) in gambar" :key="index">
+                    <!-- <img src="../assets/banner-development.png" class="d-block w-100" alt="Banner Bencana"> -->
+                    <img :src="data.url" class="d-block w-100" alt="Banner Bencana">
                 </div>
             </div>
         </div>
@@ -24,7 +25,8 @@ export default {
     name: 'Dashboard',
     data() {
         return {
-            disaster: null   
+            disaster: null,
+            gambar  : null
         }
     },
     created() {
@@ -32,6 +34,12 @@ export default {
         .get(this.$store.state.url + 'disaster')
         .then(response => {
             this.disaster = response.data
+        })
+
+        axios.get(this.$store.state.url + 'image').then(response => {
+            this.gambar = response.data
+        }).catch(e => {
+            console.log(e)
         })
     }
 }
