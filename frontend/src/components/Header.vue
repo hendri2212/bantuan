@@ -10,8 +10,8 @@ export default {
     name: 'Header',
     data() {
         return {
-            btn1 : 'Register',
-            btn2 : 'Logout'
+            btn1 : 'Daftar',
+            btn2 : 'Keluar'
         }
     },
     computed:{

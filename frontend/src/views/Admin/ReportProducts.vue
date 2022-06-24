@@ -2,27 +2,22 @@
     <div class="shadow bg-white">
         <nav class="navbar navbar-light pt-3 pb-0 d-flex justify-content-between">
             <span class="fs-4">{{ $route.meta.title }}</span>
-            <!-- <router-link class="btn btn-primary" :to="{name:'AdminCreateProducts'}">Add Product</router-link> -->
         </nav>
         <hr>
         <div id="print">
-            <data-table filter :rows="products" :pagination="pagination" sn @loadData="getProducts" :perPageOptions="[10, 20, 50]" :loading="loading" :query="query">
+            <h3 class="text-center mb-3">LAPORAN DATA BARANG</h3>
+            <data-table filter :rows="products" sn @loadData="getProducts" :loading="loading" :query="query">
                 <template #thead>
                     <table-head>USER</table-head>
                     <table-head>DISASTER</table-head>
                     <table-head>PRODUCT</table-head>
                     <table-head>TOTAL</table-head>
-                    <!-- <table-head>ACTION</table-head> -->
                 </template>
                 <template #tbody="{row}">
                     <table-body v-text="row.user.name"></table-body>
                     <table-body v-text="row.disaster.disaster_name"></table-body>
                     <table-body v-text="row.product"></table-body>
                     <table-body v-text="row.total"></table-body>
-                    <!-- <table-body>
-                        <button class="btn btn-info">Edit</button>
-                        <button class="btn btn-danger ms-2">Delete</button>
-                    </table-body> -->
                 </template>
                 <template #empty>
                     <TableBodyCell colspan="2">
@@ -31,6 +26,7 @@
                 </template>
             </data-table>
         </div>
+        <input type="button" value="Cetak Laporan" class="btn btn-warning mt-3" @click="print('print')">
     </div>
 </template>
 <script>

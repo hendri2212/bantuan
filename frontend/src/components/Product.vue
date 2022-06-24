@@ -2,35 +2,35 @@
     <div id="nav" class="home containerx bg-light">
         <div class="d-flex justify-content-between">
             <h5 class="fw-bold">Data Barang</h5>
-            <router-link to="/"><span class="badge bg-warning text-dark">Close</span></router-link>
+            <router-link to="/"><span class="badge bg-warning text-dark">Tutup</span></router-link>
         </div>
         <form v-on:submit.prevent="save">
             <div class="mb-2">
-                <label class="form-text">Product Category</label>
+                <label class="form-text">Jenis Barang</label>
                 <select v-model="category" class="form-select">
-                    <option disabled value="">Please select one</option>
+                    <option disabled value="">Pilih salah satu</option>
                     <option :value="data.id" v-for="(data, index) in categories" :key="index">{{ data.category }}</option>
                 </select>
             </div>
             <div class="mb-2">
-                <label class="form-text">Product Name</label>
+                <label class="form-text">Nama Barang</label>
                 <input type="text" class="form-control" v-model="product">
             </div>
             <div class="mb-2">
-                <label class="form-text">Total</label>
+                <label class="form-text">Jumlah</label>
                 <input type="text" class="form-control" v-model="total">
             </div>
             <div class="d-flex justify-content-end">
-                <input type="submit" class="btn btn-primary" value="Add">
+                <input type="submit" class="btn btn-primary" value="Tambah">
             </div>
         </form>
         <table class="table mt-5">
             <thead>
                 <tr>
                 <th scope="col">#</th>
-                <th scope="col">Product Category</th>
-                <th scope="col">Product Name</th>
-                <th scope="col">Total</th>
+                <th scope="col">Jenis Barang</th>
+                <th scope="col">Nama Barang</th>
+                <th scope="col">Jumlah</th>
                 </tr>
             </thead>
             <tbody>
@@ -51,7 +51,7 @@
         </table>
         
         <div class="d-grid">
-            <a href="/" class="btn btn-outline-secondary btn-block fw-lighter">Finish</a>
+            <a href="/" class="btn btn-outline-secondary btn-block fw-lighter">Selesai</a>
         </div>
     </div>
 </template>

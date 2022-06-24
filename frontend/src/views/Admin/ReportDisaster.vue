@@ -2,27 +2,20 @@
     <div class="shadow bg-white">
         <nav class="navbar navbar-light pt-3 pb-0 d-flex justify-content-between">
             <span class="fs-4">{{ $route.meta.title }}</span>
-            <!-- <router-link class="btn btn-primary" :to="{name:'AdminCreateProducts'}">Add Product</router-link> -->
         </nav>
         <hr>
         <div id="print">
-            <data-table filter :rows="products" :pagination="pagination" sn @loadData="getProducts" :perPageOptions="[10, 20, 50]" :loading="loading" :query="query">
+            <h3 class="text-center mb-3">LAPORAN DATA BENCANA</h3>
+            <data-table filter :rows="disaster" sn @loadData="getDisaster" :loading="loading" :query="query">
                 <template #thead>
-                    <table-head>USER</table-head>
-                    <table-head>DISASTER</table-head>
-                    <table-head>PRODUCT</table-head>
-                    <table-head>TOTAL</table-head>
-                    <!-- <table-head>ACTION</table-head> -->
+                    <table-head>DISASTER NAME</table-head>
+                    <table-head>INFORMATION</table-head>
+                    <table-head>LOCATION</table-head>
                 </template>
                 <template #tbody="{row}">
-                    <table-body v-text="row.user.name"></table-body>
-                    <table-body v-text="row.disaster.disaster_name"></table-body>
-                    <table-body v-text="row.product"></table-body>
-                    <table-body v-text="row.total"></table-body>
-                    <!-- <table-body>
-                        <button class="btn btn-info">Edit</button>
-                        <button class="btn btn-danger ms-2">Delete</button>
-                    </table-body> -->
+                    <table-body v-text="row.disaster_name"></table-body>
+                    <table-body v-text="`${row.information}...`"></table-body>
+                    <table-body v-text="row.location"></table-body>
                 </template>
                 <template #empty>
                     <TableBodyCell colspan="2">
@@ -31,11 +24,13 @@
                 </template>
             </data-table>
         </div>
+        <input type="button" value="Cetak Laporan" class="btn btn-warning mt-3" @click="print('print')">
     </div>
 </template>
 <script>
 import axios from 'axios'
-import { DataTable, TableHead, TableBody, TableBodyCell} from '@jobinsjp/vue3-datatable'
+axios.defaults.baseURL = 'http://127.0.0.1:8000/api/admin'
+import { DataTable, TableHead, TableBody, TableBodyCell } from '@jobinsjp/vue3-datatable'
 export default {
     name: "Disaster",
     components:{
@@ -46,9 +41,8 @@ export default {
     },
     data(){
         return {
-            url:'http://127.0.0.1:8000',
             loading: true,
-            products:[],
+            disaster:[],
             pagination:{
                 per_page:10
             },
@@ -56,12 +50,12 @@ export default {
         }
     },
     methods:{
-        getProducts: function ({page=1, per_page=15, search=''}){
+        getDisaster: function ({page=1, per_page=15, search=''}){
             this.loading = true
             let isSearching = search ? `&search=${search}` : ''
-            axios.get(this.url + `/api/admin/products?page=${page}&per_page=${per_page}${isSearching}`).then(response => {
+            axios.get(`/disaster?page=${page}&per_page=${per_page}${isSearching}`).then(response => {
                 if(response.data.data.length > 0){
-                    this.products = response.data.data
+                    this.disaster = response.data.data
                     this.pagination.page = response.data.current_page
                     this.pagination.total = response.data.total
                     this.pagination.per_page = 10
@@ -71,6 +65,17 @@ export default {
                 this.loading = false
             })
             
+        },
+        deleteDisaster: function(id){
+            axios.delete(`/disaster/${id}`).then(response => {
+                let index = this.disaster.findIndex(p => {
+                    return p.id == id
+                })
+                this.disaster.splice(index, 1)
+                alert(response.data)
+            }).catch(response => {
+                alert(response.response.data)
+            })
         },
         print: function(id){
             var printContents = document.getElementById(id).innerHTML;
